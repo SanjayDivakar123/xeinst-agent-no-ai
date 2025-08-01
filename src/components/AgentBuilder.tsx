@@ -151,6 +151,17 @@ const AgentBuilder = () => {
                 placeholder="Define your agent's behavior and personality..."
               />
             </div>
+
+            <Separator className="bg-separator" />
+
+            {/* Save Button */}
+            <Button 
+              className="w-full bg-primary text-primary-foreground hover:bg-primary-glow shadow-glow transition-all duration-300"
+              size="lg"
+            >
+              <Save className="w-5 h-5 mr-2" />
+              Save Agent
+            </Button>
           </div>
         </div>
 
@@ -218,14 +229,6 @@ const AgentBuilder = () => {
             ))}
           </div>
 
-          {/* Save Button - Fixed Bottom Right */}
-          <Button 
-            className="fixed bottom-6 right-6 bg-primary text-primary-foreground hover:bg-primary-glow shadow-glow transition-all duration-300"
-            size="lg"
-          >
-            <Save className="w-5 h-5 mr-2" />
-            Save Agent
-          </Button>
         </div>
 
         {/* Right Panel - Chat Preview */}
