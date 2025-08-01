@@ -80,7 +80,7 @@ const AgentBuilder = () => {
         <img 
           src="/lovable-uploads/dee4b780-928d-46d3-9df9-4b544fe7dbe5.png" 
           alt="Xeinst" 
-          className="h-8 w-auto brightness-0 invert shadow-glow"
+          className="h-8 w-auto shadow-glow"
         />
       </div>
 
