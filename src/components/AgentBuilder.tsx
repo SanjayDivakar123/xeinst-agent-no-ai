@@ -7,7 +7,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { RefreshCw, Save, Send, Plus, X } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { 
+  RefreshCw, 
+  Save, 
+  Send, 
+  Plus, 
+  X, 
+  Settings, 
+  Zap,
+  Brain,
+  MessageSquare,
+  Play,
+  Sparkles
+} from "lucide-react";
 
 interface PromptBlock {
   id: string;
@@ -30,10 +43,10 @@ const AgentBuilder = () => {
   const [userInput, setUserInput] = useState('');
 
   const models = [
-    { value: 'gpt-4o', label: 'GPT-4o' },
-    { value: 'claude-sonnet', label: 'Claude Sonnet' },
-    { value: 'mixtral', label: 'Mixtral' },
-    { value: 'llama3', label: 'Llama 3' }
+    { value: 'gpt-4o', label: 'GPT-4o', icon: Brain },
+    { value: 'claude-sonnet', label: 'Claude Sonnet', icon: Sparkles },
+    { value: 'mixtral', label: 'Mixtral', icon: Zap },
+    { value: 'llama3', label: 'Llama 3', icon: MessageSquare }
   ];
 
   const addPromptBlock = () => {
@@ -74,215 +87,274 @@ const AgentBuilder = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background font-inter text-foreground">
-      {/* Floating Logo */}
-      <div className="fixed top-6 left-6 z-50">
-        <img 
-          src="/lovable-uploads/dee4b780-928d-46d3-9df9-4b544fe7dbe5.png" 
-          alt="Xeinst" 
-          className="h-8 w-auto"
-        />
-      </div>
-
-      {/* Main Layout */}
-      <div className="flex h-screen pt-16">
-        {/* Left Sidebar - Agent Configuration */}
-        <div className="w-80 border-r border-separator bg-card p-6 overflow-y-auto">
-          <div className="space-y-6">
-            {/* Agent Name */}
-            <div className="space-y-2">
-              <Label htmlFor="agent-name" className="text-sm font-medium">
-                Agent Name
-              </Label>
-              <Input
-                id="agent-name"
-                value={agentName}
-                onChange={(e) => setAgentName(e.target.value)}
-                className="bg-input border-input-border focus:border-input-focus transition-colors"
-                placeholder="Enter agent name"
-              />
+    <div className="min-h-screen bg-background font-poppins">
+      {/* Header with Logo */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-card-border">
+        <div className="h-16 px-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img 
+              src="/lovable-uploads/dee4b780-928d-46d3-9df9-4b544fe7dbe5.png" 
+              alt="Xeinst" 
+              className="h-8 w-auto"
+            />
+            <div className="text-xl font-semibold neon-text">
+              Xeinst
             </div>
-
-            {/* Model Selector */}
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Model</Label>
-              <Select value={selectedModel} onValueChange={setSelectedModel}>
-                <SelectTrigger className="bg-input border-input-border focus:border-input-focus">
-                  <SelectValue placeholder="Select a model" />
-                </SelectTrigger>
-                <SelectContent className="bg-card border-border">
-                  {models.map((model) => (
-                    <SelectItem key={model.value} value={model.value} className="text-foreground hover:bg-card-hover">
-                      {model.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Temperature Slider */}
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <Label className="text-sm font-medium">Temperature</Label>
-                <span className="text-sm text-muted-foreground">{temperature[0]}</span>
-              </div>
-              <Slider
-                value={temperature}
-                onValueChange={setTemperature}
-                max={2}
-                min={0}
-                step={0.1}
-                className="w-full"
-              />
-            </div>
-
-            <Separator className="bg-separator" />
-
-            {/* System Prompt */}
-            <div className="space-y-2">
-              <Label htmlFor="system-prompt" className="text-sm font-medium">
-                System Prompt
-              </Label>
-              <Textarea
-                id="system-prompt"
-                value={systemPrompt}
-                onChange={(e) => setSystemPrompt(e.target.value)}
-                className="bg-input border-input-border focus:border-input-focus min-h-32 resize-none transition-colors"
-                placeholder="Define your agent's behavior and personality..."
-              />
-            </div>
-
-            <Separator className="bg-separator" />
-
-            {/* Save Button */}
-            <Button 
-              className="w-full bg-primary text-primary-foreground hover:bg-primary-glow shadow-glow transition-all duration-300"
-              size="lg"
-            >
-              <Save className="w-5 h-5 mr-2" />
-              Save Agent
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" className="hover:bg-card-hover">
+              <Settings className="w-4 h-4" />
             </Button>
           </div>
         </div>
+      </header>
 
-        {/* Center Workspace - Prompt Builder */}
-        <div className="flex-1 relative bg-background p-6 overflow-y-auto">
-          <div className="max-w-4xl mx-auto space-y-4">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold">Visual Prompt Builder</h2>
-              <Button 
-                onClick={addPromptBlock}
-                variant="outline" 
-                size="sm"
-                className="border-input-border hover:bg-card-hover"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add Block
-              </Button>
+      {/* Main Layout Grid */}
+      <div className="pt-16 grid grid-cols-12 min-h-screen gap-6 p-6">
+        
+        {/* Left Sidebar - Agent Configuration */}
+        <div className="col-span-12 lg:col-span-3">
+          <div className="glass-card p-6 h-fit sticky top-24">
+            <div className="space-y-6">
+              {/* Agent Header */}
+              <div className="text-center pb-4 border-b border-separator">
+                <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <Brain className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="font-semibold text-lg">Agent Configuration</h3>
+                <p className="text-sm text-muted-foreground">Define your AI's behavior</p>
+              </div>
+
+              {/* Agent Name */}
+              <div className="space-y-3">
+                <Label htmlFor="agent-name" className="text-sm font-medium text-foreground">
+                  Agent Name
+                </Label>
+                <Input
+                  id="agent-name"
+                  value={agentName}
+                  onChange={(e) => setAgentName(e.target.value)}
+                  className="bg-input border-input-border focus:border-accent input-glow smooth-transition rounded-lg h-11"
+                  placeholder="Enter agent name"
+                />
+              </div>
+
+              {/* Model Selector */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium text-foreground">Model</Label>
+                <Select value={selectedModel} onValueChange={setSelectedModel}>
+                  <SelectTrigger className="bg-input border-input-border focus:border-accent h-11 rounded-lg">
+                    <SelectValue placeholder="Select a model" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-card border-card-border rounded-lg">
+                    {models.map((model) => (
+                      <SelectItem 
+                        key={model.value} 
+                        value={model.value} 
+                        className="text-foreground hover:bg-card-hover rounded-md"
+                      >
+                        <div className="flex items-center gap-2">
+                          <model.icon className="w-4 h-4 text-accent" />
+                          {model.label}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Temperature Slider */}
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <Label className="text-sm font-medium text-foreground">Temperature</Label>
+                  <div className="text-sm font-mono bg-accent-muted text-accent px-2 py-1 rounded-md">
+                    {temperature[0]}
+                  </div>
+                </div>
+                <Slider
+                  value={temperature}
+                  onValueChange={setTemperature}
+                  max={2}
+                  min={0}
+                  step={0.1}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>Focused</span>
+                  <span>Creative</span>
+                </div>
+              </div>
+
+              <Separator className="bg-separator" />
+
+              {/* System Prompt */}
+              <div className="space-y-3">
+                <Label htmlFor="system-prompt" className="text-sm font-medium text-foreground">
+                  System Prompt
+                </Label>
+                <Textarea
+                  id="system-prompt"
+                  value={systemPrompt}
+                  onChange={(e) => setSystemPrompt(e.target.value)}
+                  className="bg-input border-input-border focus:border-accent input-glow min-h-32 resize-none smooth-transition rounded-lg"
+                  placeholder="Define your agent's behavior and personality..."
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Center Panel - Prompt Builder */}
+        <div className="col-span-12 lg:col-span-6">
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="glass-card p-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-2xl font-bold text-foreground">Visual Prompt Builder</h2>
+                  <p className="text-muted-foreground mt-1">Create structured prompts with blocks</p>
+                </div>
+                <Button 
+                  onClick={addPromptBlock}
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground hover-glow rounded-lg px-6"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Block
+                </Button>
+              </div>
             </div>
 
-            {promptBlocks.map((block) => (
-              <Card key={block.id} className="bg-card border-border hover:bg-card-hover transition-colors">
-                <CardHeader className="pb-3">
-                  <div className="flex justify-between items-center">
-                    <CardTitle className="text-base">
-                      <Input
-                        value={block.label}
-                        onChange={(e) => updatePromptBlock(block.id, 'label', e.target.value)}
-                        className="bg-transparent border-none p-0 h-auto font-medium text-base focus:ring-0"
-                        placeholder="Block Label"
-                      />
-                    </CardTitle>
-                    <div className="flex items-center gap-2">
-                      <Select
-                        value={block.type}
-                        onValueChange={(value) => updatePromptBlock(block.id, 'type', value)}
-                      >
-                        <SelectTrigger className="w-20 h-8 bg-input border-input-border">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="bg-card border-border">
-                          <SelectItem value="text" className="text-foreground hover:bg-card-hover">Text</SelectItem>
-                          <SelectItem value="json" className="text-foreground hover:bg-card-hover">JSON</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removePromptBlock(block.id)}
-                        className="h-8 w-8 p-0 hover:bg-red-500/20 hover:text-red-400"
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
+            {/* Prompt Blocks */}
+            <div className="space-y-4">
+              {promptBlocks.map((block, index) => (
+                <Card 
+                  key={block.id} 
+                  className="glass-card hover:bg-card-hover smooth-transition group"
+                >
+                  <CardHeader className="pb-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center text-accent-foreground font-medium text-sm">
+                          {index + 1}
+                        </div>
+                        <CardTitle className="text-base">
+                          <Input
+                            value={block.label}
+                            onChange={(e) => updatePromptBlock(block.id, 'label', e.target.value)}
+                            className="bg-transparent border-none p-0 h-auto font-semibold text-base focus:ring-0 text-foreground"
+                            placeholder="Block Label"
+                          />
+                        </CardTitle>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Select
+                          value={block.type}
+                          onValueChange={(value) => updatePromptBlock(block.id, 'type', value)}
+                        >
+                          <SelectTrigger className="w-20 h-8 bg-input border-input-border text-xs">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-card border-card-border">
+                            <SelectItem value="text" className="text-foreground hover:bg-card-hover text-xs">Text</SelectItem>
+                            <SelectItem value="json" className="text-foreground hover:bg-card-hover text-xs">JSON</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removePromptBlock(block.id)}
+                          className="h-8 w-8 p-0 hover:bg-destructive/20 hover:text-destructive opacity-0 group-hover:opacity-100 smooth-transition"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    value={block.content}
-                    onChange={(e) => updatePromptBlock(block.id, 'content', e.target.value)}
-                    className="bg-input border-input-border focus:border-input-focus min-h-24 resize-none font-mono text-sm transition-colors"
-                    placeholder={block.type === 'json' ? '{\n  "key": "value"\n}' : 'Enter your prompt content...'}
-                  />
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  </CardHeader>
+                  <CardContent>
+                    <Textarea
+                      value={block.content}
+                      onChange={(e) => updatePromptBlock(block.id, 'content', e.target.value)}
+                      className="bg-input border-input-border focus:border-accent input-glow min-h-24 resize-none font-mono text-sm smooth-transition rounded-lg"
+                      placeholder={block.type === 'json' ? '{\n  "key": "value"\n}' : 'Enter your prompt content...'}
+                    />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
+            {/* Save Button - Fixed Position */}
+            <div className="fixed bottom-6 right-6 z-40">
+              <Button 
+                size="lg"
+                className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-glow-lg hover-glow rounded-2xl px-8 py-3 text-base font-semibold"
+              >
+                <Save className="w-5 h-5 mr-2" />
+                Save Agent
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* Right Panel - Chat Preview */}
-        <div className="w-96 border-l border-separator bg-card flex flex-col">
-          <div className="p-4 border-b border-separator">
-            <div className="flex justify-between items-center">
-              <h3 className="font-semibold">Live Preview</h3>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={refreshResponse}
-                className="hover:bg-card-hover"
-              >
-                <RefreshCw className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-          
-          {/* Chat Messages */}
-          <div className="flex-1 p-4 space-y-4 overflow-y-auto">
-            {chatMessages.map((message, index) => (
-              <div
-                key={index}
-                className={`p-3 rounded-lg ${
-                  message.role === 'user' 
-                    ? 'bg-chat-user ml-4' 
-                    : 'bg-chat-agent mr-4'
-                }`}
-              >
-                <div className="text-sm font-medium mb-1 text-muted-foreground">
-                  {message.role === 'user' ? 'You' : agentName}
+        <div className="col-span-12 lg:col-span-3">
+          <div className="glass-card h-[calc(100vh-7rem)] flex flex-col sticky top-24">
+            {/* Chat Header */}
+            <div className="p-6 border-b border-separator">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="font-semibold text-lg text-foreground">Live Preview</h3>
+                  <p className="text-sm text-muted-foreground">Test your agent</p>
                 </div>
-                <div className="text-sm">{message.content}</div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={refreshResponse}
+                  className="hover:bg-card-hover rounded-lg"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                </Button>
               </div>
-            ))}
-          </div>
+            </div>
+            
+            {/* Chat Messages */}
+            <ScrollArea className="flex-1 p-4">
+              <div className="space-y-4">
+                {chatMessages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`p-4 rounded-xl smooth-transition ${
+                      message.role === 'user' 
+                        ? 'bg-accent-muted ml-4 text-accent-foreground' 
+                        : 'bg-card-hover mr-4 text-foreground'
+                    }`}
+                  >
+                    <div className="text-xs font-medium mb-2 opacity-70">
+                      {message.role === 'user' ? 'You' : agentName}
+                    </div>
+                    <div className="text-sm leading-relaxed">{message.content}</div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
 
-          {/* Chat Input */}
-          <div className="p-4 border-t border-separator">
-            <div className="flex gap-2">
-              <Input
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-                placeholder="Test your agent..."
-                className="bg-input border-input-border focus:border-input-focus"
-              />
-              <Button 
-                onClick={sendMessage}
-                size="icon"
-                className="bg-primary text-primary-foreground hover:bg-primary-glow"
-              >
-                <Send className="w-4 h-4" />
-              </Button>
+            {/* Chat Input */}
+            <div className="p-4 border-t border-separator">
+              <div className="flex gap-3">
+                <Input
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                  placeholder="Test your agent..."
+                  className="bg-input border-input-border focus:border-accent input-glow h-11 rounded-lg"
+                />
+                <Button 
+                  onClick={sendMessage}
+                  size="icon"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground hover-glow rounded-lg h-11 w-11"
+                >
+                  <Send className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>

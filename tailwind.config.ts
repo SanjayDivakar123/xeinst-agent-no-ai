@@ -20,6 +20,7 @@ export default {
 		extend: {
 			fontFamily: {
 				'inter': ['Inter', 'sans-serif'],
+				'poppins': ['Poppins', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -32,7 +33,8 @@ export default {
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
-					glow: 'hsl(var(--primary-glow))'
+					glow: 'hsl(var(--primary-glow))',
+					accent: 'hsl(var(--primary-accent))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -45,20 +47,37 @@ export default {
 				},
 				accent: {
 					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					foreground: 'hsl(var(--accent-foreground))',
+					muted: 'hsl(var(--accent-muted))'
 				},
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))',
-					hover: 'hsl(var(--card-hover))'
+					hover: 'hsl(var(--card-hover))',
+					border: 'hsl(var(--card-border))'
 				},
 				separator: 'hsl(var(--separator))',
 				'chat-user': 'hsl(var(--chat-user))',
-				'chat-agent': 'hsl(var(--chat-agent))'
+				'chat-agent': 'hsl(var(--chat-agent))',
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))'
+				},
+				destructive: {
+					DEFAULT: 'hsl(var(--destructive))',
+					foreground: 'hsl(var(--destructive-foreground))'
+				}
 			},
 			boxShadow: {
-				'glow': '0 0 20px hsl(var(--glow-primary) / var(--glow-intensity))',
-				'glow-lg': '0 0 40px hsl(var(--glow-primary) / var(--glow-intensity))',
+				'soft': 'var(--shadow-soft)',
+				'glow': 'var(--shadow-glow)',
+				'glow-lg': 'var(--shadow-glow-lg)',
+				'card': 'var(--shadow-card)',
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-card': 'var(--gradient-card)',
+				'gradient-border': 'var(--gradient-border)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Xeinst AI Agent Builder Design System - Dark Theme */
+/* Xeinst AI Agent Builder Design System - Premium SaaS Theme */
 
 @layer base {
   :root {
@@ -11,14 +11,16 @@
     --foreground: 0 0% 100%; /* white text */
 
     /* Card system for panels */
-    --card: 0 0% 7%; /* slightly lighter than bg */
+    --card: 0 0% 6%; /* elevated cards */
     --card-foreground: 0 0% 100%;
-    --card-hover: 0 0% 9%; /* hover state */
+    --card-hover: 0 0% 8%; /* hover state */
+    --card-border: 0 0% 12%; /* subtle borders */
 
     /* Interactive elements */
     --primary: 0 0% 100%; /* neon white */
     --primary-foreground: 0 0% 4.3%;
-    --primary-glow: 0 0% 95%; /* glow effect */
+    --primary-glow: 280 100% 70%; /* neon purple glow */
+    --primary-accent: 280 100% 85%; /* bright accent */
 
     /* Secondary elements */
     --secondary: 0 0% 12%;
@@ -30,30 +32,40 @@
     --muted-foreground: 0 0% 60%;
 
     /* Accent for highlights */
-    --accent: 0 0% 15%;
+    --accent: 280 100% 70%; /* neon purple */
     --accent-foreground: 0 0% 100%;
+    --accent-muted: 280 50% 15%; /* muted accent bg */
 
     /* Borders and inputs */
-    --border: 0 0% 15%;
-    --input: 0 0% 8%;
-    --input-border: 0 0% 20%;
-    --input-focus: 0 0% 100%;
+    --border: 0 0% 12%;
+    --input: 0 0% 6%;
+    --input-border: 0 0% 18%;
+    --input-focus: 280 100% 70%;
 
     /* Focus ring */
-    --ring: 0 0% 100%;
+    --ring: 280 100% 70%;
 
     /* Panel separators */
-    --separator: 0 0% 12%;
+    --separator: 0 0% 10%;
 
     /* Chat elements */
-    --chat-user: 0 0% 10%;
-    --chat-agent: 0 0% 8%;
+    --chat-user: 280 50% 8%;
+    --chat-agent: 0 0% 6%;
 
-    /* Neon glow effects */
-    --glow-primary: 0 0% 100%;
-    --glow-intensity: 0.3;
+    /* Success states */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    /* Destructive states */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(280 100% 70% / 0.1), hsl(280 100% 85% / 0.05));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 6%), hsl(0 0% 4%));
+    --gradient-border: linear-gradient(90deg, transparent, hsl(280 100% 70% / 0.5), transparent);
+
+    --radius: 0.75rem;
 
     /* Typography scale */
     --font-size-xs: 0.75rem;
@@ -62,6 +74,8 @@
     --font-size-lg: 1.125rem;
     --font-size-xl: 1.25rem;
     --font-size-2xl: 1.5rem;
+    --font-size-3xl: 2rem;
+    --font-size-4xl: 2.5rem;
 
     /* Spacing scale */
     --spacing-xs: 0.25rem;
@@ -69,11 +83,19 @@
     --spacing-md: 1rem;
     --spacing-lg: 1.5rem;
     --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+
+    /* Shadows */
+    --shadow-soft: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.06);
+    --shadow-glow: 0 0 20px hsl(280 100% 70% / 0.3);
+    --shadow-glow-lg: 0 0 40px hsl(280 100% 70% / 0.4);
+    --shadow-card: 0 8px 25px -5px hsl(0 0% 0% / 0.3);
 
     /* Animation durations */
     --transition-fast: 0.15s;
     --transition-normal: 0.25s;
     --transition-slow: 0.4s;
+    --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -83,6 +105,46 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-poppins antialiased;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-card-border rounded-xl shadow-card;
+  }
+
+  .neon-text {
+    @apply text-primary;
+    text-shadow: 0 0 10px hsl(var(--primary-glow) / 0.5);
+  }
+
+  .smooth-transition {
+    @apply transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)];
+  }
+
+  .hover-glow {
+    @apply hover:shadow-glow smooth-transition;
+  }
+
+  .input-glow:focus {
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2), 0 0 20px hsl(var(--ring) / 0.1);
   }
 }
